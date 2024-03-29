@@ -1,4 +1,4 @@
-python-3.12.2 # Replace with the specific Python version
+python-dotenv # Replace with the specific Python version
 pyrogram  # OR python-telegram-bot (choose one)
 pytgcalls
 google-api-python-client
