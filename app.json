@@ -1,0 +1,13 @@
+{
+  "name": "Your Telegram Music Bot",
+  "description": "A Telegram bot for playing music in voice chats",
+  "telegram": {
+    "api_id": "${TELEGRAM_API_ID}",  # Placeholder, use environment variable on Heroku
+    "api_hash": "${TELEGRAM_API_HASH}",  # Placeholder, use environment variable on Heroku
+    "bot_token": "${TELEGRAM_BOT_TOKEN}"  # Placeholder, use environment variable on Heroku
+  },
+  "youtube": {
+    "api_key": "${YOUTUBE_API_KEY}"  # Placeholder, use environment variable on Heroku
+  },
+  "python_version": "3.9"  # Replace with the specific Python version required
+}
