@@ -1,27 +1,21 @@
-import os
-import logging
 from pyrogram import Client, filters
 from pytgcalls import GroupCallManager
 from googleapiclient.discovery import build
+import logging
 
-# Replace with your Telegram API ID and bot token (stored in Heroku environment variables)
-API_ID = int(os.environ.get('TELEGRAM_API_ID'))
-API_HASH = os.environ.get('TELEGRAM_API_HASH')
-BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
-
-# Replace with your YouTube API key (stored in Heroku environment variables)
-YOUTUBE_API_KEY = os.environ.get('YOUTUBE_API_KEY')
-
-# Logging configuration (optional)
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+# Import configuration from config.py
+from .config import (
+    API_ID,
+    API_HASH,
+    BOT_TOKEN,
+    YOUTUBE_API_KEY,
 )
 
 app = Client("your_bot_name", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 call_manager = GroupCallManager(app)
-
 youtube = build('youtube', 'v3', developerKey=YOUTUBE_API_KEY)
+
+logging.basicConfig(level=logging.DEBUG)  # Enable debug logging (optional)
 
 @app.on_message(filters.command(["join", "start"]))
 async def join_chat(client, message):
