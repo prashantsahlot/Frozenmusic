@@ -1,7 +1,1 @@
-{
-  "name": "Your Telegram Music Bot",
-  "description": "A Telegram bot for playing music in voice chats",
-  "telegram": {},
-  "youtube": {},
-  "python_version": "3.9"  # Replace with the specific Python version required
-}
+
