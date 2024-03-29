@@ -1,4 +1,4 @@
-python-3.8.0  # Replace with the specific Python version
+python-3 # Replace with the specific Python version
 pyrogram  # OR python-telegram-bot (choose one)
 pytgcalls
 google-api-python-client
