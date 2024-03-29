@@ -1,4 +1,4 @@
-API_ID = int(os.environ.get('TELEGRAM_API_ID'))
-API_HASH = os.environ.get('TELEGRAM_API_HASH')
-BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
-YOUTUBE_API_KEY = os.environ.get('YOUTUBE_API_KEY')
+API_ID = int(os.environ.get('26495505'))
+API_HASH = os.environ.get('41ce1aa633c6ae79b928ddd4caefc245')
+BOT_TOKEN = os.environ.get('')
+YOUTUBE_API_KEY = os.environ.get('AIzaSyAqJOx0P-yh3kbtaIYRsCTrO6QMTa8SVhY')
