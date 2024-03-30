@@ -1,4 +1,3 @@
 
 pyrogram  # OR python-telegram-bot (choose one)
 pytgcalls
-google-api-python-client
