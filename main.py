@@ -1,49 +1,43 @@
-from pyrogram import Client, filters
-from pytgcalls import GroupCallManager
-from googleapiclient.discovery import build
-import logging
 
-# Import configuration from config.py
-from .config import (
-    API_ID,
-    API_HASH,
-    BOT_TOKEN,
-    YOUTUBE_API_KEY,
-)
+import os
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram import ChatAction
+from pytube import YouTube
+from pydub import AudioSegment
+from pydub.playback import play
 
-app = Client("your_bot_name", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
-call_manager = GroupCallManager(app)
-youtube = build('youtube', 'v3', developerKey=YOUTUBE_API_KEY)
+# Telegram Bot Token
+TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'
 
-logging.basicConfig(level=logging.DEBUG)  # Enable debug logging (optional)
+def start(update, context):
+    update.message.reply_text('Welcome to the VC Music Bot!')
 
-@app.on_message(filters.command(["join", "start"]))
-async def join_chat(client, message):
-    chat_id = message.chat.id
-    await call_manager.join_group_call(chat_id)
+def play_song(update, context):
+    # Download and play the song
+    song_url = context.args[0]
+    update.message.reply_text(f'Playing song from {song_url}')
+    
+    # Download song using pytube
+    yt = YouTube(song_url)
+    audio_stream = yt.streams.filter(only_audio=True).first()
+    audio_stream.download(filename='song.mp3')
 
-@app.on_message(filters.command("play"))
-async def play_music(client, message):
-    query = message.text.split()[1]
+    # Convert to WAV format
+    audio = AudioSegment.from_mp3('song.mp3')
+    audio.export('song.wav', format='wav')
 
-    # Search for the video using YouTube Data API v3 (replace with your desired search logic)
-    search_response = youtube.search().list(
-        part='snippet',
-        q=query,
-        type='video'
-    ).execute()
+    # Play the song
+    play(audio)
 
-    try:
-        video_id = search_response['items'][0]['id']['videoId']
-        # You might need to handle potential errors here, e.g., no results found
-        await call_manager.stream_video(chat_id=message.chat.id, video_id=video_id)
-    except Exception as e:
-        logging.error(f"Error playing video: {e}")
-        await message.reply_text(f"An error occurred while playing the video.")
+def main():
+    updater = Updater(TOKEN, use_context=True)
+    dp = updater.dispatcher
 
-@app.on_message(filters.command("stop"))
-async def stop_playing(client, message):
-    await call_manager.leave_current_group_call()
+    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("play", play_song))
 
-if __name__ == "__main__":
-    app.run()
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
